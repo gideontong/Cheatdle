@@ -26,11 +26,11 @@ def remove_possible(ans: list, letters: list, not_in: set, wordlist: list) -> li
                     wordlist.remove(word)
     
     if len(letters) > 0:
-        for word in wordlist:
-            exist = False
+        for word in wordlist.copy():
+            exist = True
             for letter in letters:
-                if letter in word:
-                    exist = True
+                if letter not in word:
+                    exist = False
             
             if not exist:
                 wordlist.remove(word)
