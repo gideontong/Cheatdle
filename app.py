@@ -1,6 +1,5 @@
 from os import listdir
 from collections import Counter
-from random import choice as random_choice
 
 DATA_FOLDER = 'data'
 
@@ -69,9 +68,9 @@ def choice(wordlist: list) -> str:
         tracking = [i[0] for i in characters.most_common(i)]
         available = words_with(wordlist, tracking)
         if len(available) > 0:
-            return random_choice(available)
+            return available[0]
     
-    return random_choice(wordlist)
+    return wordlist[0]
 
 wordlists = set([file.split('.')[0] for file in listdir(DATA_FOLDER)])
 print('allowed wordlists:', wordlists)
@@ -85,9 +84,6 @@ with open(f'{DATA_FOLDER}/{wordlist}.txt') as fp:
 
 words = [word.strip() for word in words]
 print('added', len(words), 'words to analysis')
-
-# TODO: analyze which guess is the most likely to remove the most words
-# for now, just pick a random word
 
 while len(words) > 1:
     guess = choice(words)
