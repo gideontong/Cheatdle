@@ -96,4 +96,7 @@ while len(words) > 1:
     word, letters, not_in = return_correctness(guess)
     words = remove_possible(word, letters, not_in, words)
 
-    print(word, letters, words)
+if len(words) > 0:
+    print('the word was', words[0])
+else:
+    print('the word was not in my dictionary')
