@@ -36,10 +36,11 @@ def remove_possible(ans: list, letters: list, not_in: set, wordlist: list) -> li
             if not exist:
                 wordlist.remove(word)
     
-    for i, letter in enumerate(letters):
+    for i, letterbox in enumerate(letters):
         for word in wordlist.copy():
-            if word[i] == letter:
-                wordlist.remove()
+            for letter in letterbox: 
+                if word[i] == letter:
+                    wordlist.remove(word)
 
     for c in not_in:
         for word in wordlist.copy():
@@ -78,6 +79,9 @@ print('allowed wordlists:', wordlists)
 wordlist = input('name of wordlist to use? ')
 while wordlist not in wordlists:
     wordlist = input('invalid, enter a valid name? ')
+
+double = input('dordle mode (yes/no)? ')
+double = double == 'yes'
 
 with open(f'{DATA_FOLDER}/{wordlist}.txt') as fp:
     words = fp.readlines()

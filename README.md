@@ -8,7 +8,7 @@ Unbeatable Guesser in Wordle and Wordle Clones
 
 * Wordle
 * Lewdle
-* Dordle
+* Dordle (almost)
 
 ## FAQ
 
