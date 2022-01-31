@@ -1,18 +1,19 @@
 from os import listdir
-from random import choice
+from collections import Counter
+from random import choice as random_choice
 
 DATA_FOLDER = 'data'
 
 def return_correctness(word: str) -> tuple:
     ans = [None] * 5
-    letters = list()
+    letters = [[], [], [], [], []]
     not_in = set()
     for i, c in enumerate(word):
         prompt = input(f'was {c} correct (yes/misplaced/no)? ')
         if prompt == 'yes':
             ans[i] = c
         elif prompt == 'misplaced':
-            letters.append(c)
+            letters[i].append(c)
         elif prompt == 'no':
             not_in.add(c)
     
@@ -25,21 +26,52 @@ def remove_possible(ans: list, letters: list, not_in: set, wordlist: list) -> li
                 if word[i] != c:
                     wordlist.remove(word)
     
-    if len(letters) > 0:
+    all_letters = list(set([j for s in letters for j in s]))
+    if len(all_letters) > 0:
         for word in wordlist.copy():
             exist = True
-            for letter in letters:
+            for letter in all_letters:
                 if letter not in word:
                     exist = False
             
             if not exist:
                 wordlist.remove(word)
+    
+    for i, letter in enumerate(letters):
+        for word in wordlist.copy():
+            if word[i] == letter:
+                wordlist.remove()
 
     for c in not_in:
         for word in wordlist.copy():
             if c in word:
                 wordlist.remove(word)
     return wordlist
+
+def words_with(wordlist: list, characters: list) -> list:
+    words = list()
+    for word in wordlist:
+        included = True
+        for c in characters:
+            if c not in word:
+                included = False
+        
+        if included:
+            words.append(word)
+    return words
+
+def choice(wordlist: list) -> str:
+    characters = Counter()
+    for word in wordlist:
+        characters.update(word)
+    
+    for i in range(6, 1, -1):
+        tracking = [i[0] for i in characters.most_common(i)]
+        available = words_with(wordlist, tracking)
+        if len(available) > 0:
+            return random_choice(available)
+    
+    return random_choice(wordlist)
 
 wordlists = set([file.split('.')[0] for file in listdir(DATA_FOLDER)])
 print('allowed wordlists:', wordlists)
